@@ -3,16 +3,40 @@
   <head>
     <meta charset="UTF-8">
     <title>Main Window</title>
+    <style>
+      h1 {
+        text-align: center;
+        font-size: 30px;
+      }
+      img {
+        display: block;
+        margin: auto;
+      }
+      #map-container {
+        position: relative;
+        display: inline-block;
+      }
+      #map-text {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-bottom: 0px;
+        margin-left: 0px;
+        font-size: 18px;
+        color: black;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
-    <h1>Main Window</h1>
-    <button id="open-map-window">Open Map Window</button>
-
+    <h1>HOME.PS</h1>
+    <div id="map-container">
+      <img src="C:\Users\rkdqu\Documents\GitHub\home.ps\my-electron-app\map.png" alt="map" width="350" height="350">
+      <div id="map-text">주목해야 할 지역</div>
+    </div>
     <script>
       const { ipcRenderer } = require('electron');
-
       const openMapWindowButton = document.querySelector('#open-map-window');
-
       openMapWindowButton.addEventListener('click', () => {
         ipcRenderer.send('open-map-window');
       });
