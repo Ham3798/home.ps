@@ -1,30 +1,57 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
-const path = require('path')
+const { app, BrowserWindow, ipcMain } = require('electron');
 
-function createWindow () {
-  const mainWindow = new BrowserWindow({
+let mainWindow;
+let mapWindow;
+
+function createMainWindow () {
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      nodeIntegration: true
     }
-  })
+  });
 
-  ipcMain.on('set-title', (event, title) => {
-    const webContents = event.sender
-    const win = BrowserWindow.fromWebContents(webContents)
-    win.setTitle(title)
-  })
+  mainWindow.loadFile('index.html');
 
-  mainWindow.loadFile('index.html')
+  mainWindow.on('closed', function () {
+    mainWindow = null;
+  });
 }
 
-app.whenReady().then(() => {
-  createWindow()
+function createMapWindow () {
+  mapWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    parent: mainWindow,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
 
-  app.on('activate', function () {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
-})
+  mapWindow.loadFile('map.html');
+
+  mapWindow.on('closed', function () {
+    mapWindow = null;
+  });
+}
+
+app.on('ready', createMainWindow);
 
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit()
-})
+  if (process.platform !== 'darwin') app.quit();
+});
+
+app.on('activate', function () {
+  if (mainWindow === null) createMainWindow();
+});
+
+// 메인 윈도우에서 버튼 클릭 시 맵 윈도우를 생성합니다.
+ipcMain.on('open-map-window', (event, arg) => {
+  createMapWindow();
+});
+
+// 맵 윈도우에서 버튼 클릭 시 메인 윈도우를 생성합니다.
+ipcMain.on('open-main-window', (event, arg) => {
+  createMainWindow();
+});

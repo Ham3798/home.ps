@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Map Window</title>
+  </head>
+  <body>
+    <h1>Map Window</h1>
+    <button id="open-main-window">Open Main Window</button>
+
+    <script>
+      const { ipcRenderer } = require('electron');
+
+      const openMainWindowButton = document.querySelector('#open-main-window');
+
+      openMainWindowButton.addEventListener('click', () => {
+        ipcRenderer.send('open-main-window');
+      });
+    </script>
+  </body>
+</html>

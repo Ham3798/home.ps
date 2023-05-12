@@ -1,6 +1,7 @@
-const setButton = document.getElementById('btn')
-const titleInput = document.getElementById('title')
-setButton.addEventListener('click', () => {
-  const title = titleInput.value
-  window.electronAPI.setTitle(title)
+const { ipcRenderer } = require('electron')
+
+const map = document.getElementById('map')
+
+map.addEventListener('click', () => {
+  ipcRenderer.send('map-click', { x: 100, y: 100 })
 })
