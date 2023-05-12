@@ -11,6 +11,8 @@
       img {
         display: block;
         margin: auto;
+        max-width: 100%;
+        height: auto;
       }
       #map-container {
         position: relative;
@@ -20,26 +22,172 @@
         position: absolute;
         bottom: 0;
         left: 0;
-        margin-bottom: 0px;
+        margin-bottom: 650px;
         margin-left: 0px;
         font-size: 18px;
         color: black;
         font-weight: bold;
       }
-    </style>
+
+      .features {
+        display: flex;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+      .feature-container {
+        flex: 0 0 auto;
+        margin-right: 10px;
+      }
+      .map-wrapper {
+        position: relative;
+        display: inline-block;
+      }
+      .map-label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-top: 20px;
+        margin-left: 20px;
+        font-size: 18px;
+        color: black;
+        font-weight: bold;
+      }
+
+      /* New styles for carousel */
+      .features-wrapper {
+        display: flex;
+        overflow-x: hidden;
+        position: relative;
+        height: 350px;
+      }
+      .carousel-arrow {
+        position: absolute;
+        top: calc(50% - 20px);
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        border: 2px solid black;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      .carousel-arrow:hover {
+        background-color: black;
+      }
+      .carousel-arrow.left {
+        left: 0;
+      }
+      .carousel-arrow.right {
+        right: 0;
+      }
+      .carousel-arrow {
+        transform: rotate(0deg);
+        transition: transform 0.2s;
+      }
+      
+      .carousel-arrow.left.rotate {
+        transform: rotate(-180deg);
+      }
+      
+      .carousel-arrow.right.rotate {
+        transform: rotate(180deg);
+      }
+      button{
+        all: unset;
+      }
+      </style>
   </head>
   <body>
     <h1>HOME.PS</h1>
-    <div id="map-container">
-      <img src="C:\Users\rkdqu\Documents\GitHub\home.ps\my-electron-app\map.png" alt="map" width="350" height="350">
-      <div id="map-text">주목해야 할 지역</div>
-    </div>
+    <div class="page-wrapper">
+      <div class="nav-wrapper">
+       <div class="grad-bar"></div>
+       <nav class="navbar">
+        <img src="C:\Users\rkdqu\Documents\GitHub\home.ps\my-electron-app\map.png" alt="map" width="350" height="350">
+         <div class="menu-toggle" id="mobile-menu">
+           <span class="bar"></span>
+           <span class="bar"></span>
+           <span class="bar"></span>
+         </div>
+       </nav>
+       </div>
+       <section class="headline">
+       </section>
+       <section class="features">
+        <div id="map-text">주목해야 할 지역</div>
+        <div class="feature-container">
+          <button><img src="C:\Users\rkdqu\Documents\GitHub\home.ps\my-electron-app\left64 (2).png" alt="Flexbox Feature"></button>
+          <p></p>
+        </div>
+        <div class="feature-container">
+          <button><img src="https://www.bdsplanet.com/common/thumbs.ytp?filepath=/COMP_20210817103459000013/upload/realty/RCODE_20230509143229000026/&filename=1683610884047_11451%ED%8F%89%EA%B1%B0%EC%8B%A42.png" alt="Flexbox Feature"></button>
+          <p></p>
+        </div>
+        <div class="feature-container">
+          <button><img src="https://www.bdsplanet.com/common/thumbs.ytp?filepath=/COMP_20211216095140000044/upload/realty/RCODE_20221005172158000010/&filename=1664959333682_2001.JPG" alt="Flexbox Feature"></button>
+          <p></p>
+        </div>
+        <div class="feature-container">
+          <button><img src="https://www.bdsplanet.com/common/thumbs.ytp?filepath=/COMP_20211216095140000044/upload/realty/RCODE_20221005180554000018/&filename=1664960946751_2006.JPG" alt="Flexbox Feature"></button>
+          <p></p>
+        </div>
+        <div class="feature-container">
+         <button><img src="https://www.bdsplanet.com/common/thumbs.ytp?filepath=/COMP_20211216095140000044/upload/realty/RCODE_20220916101522000051/&filename=1663291095855_2001.JPG" alt="Flexbox Feature"></button>
+         <p></p>
+       </div>
+       <div class="feature-container">
+         <button><img src="https://www.bdsplanet.com/common/thumbs.ytp?filepath=/COMP_20211216095140000044/upload/realty/RCODE_20220928060237000005/&filename=1664312729933_2001.JPG" alt="Flexbox Feature"></button>
+         <p></p>
+       </div>
+       <div class="feature-container">
+         <button><img src="https://www.bdsplanet.com/common/thumbs.ytp?filepath=/COMP_20211216095140000044/upload/realty/RCODE_20220928115104000010/&filename=1664333643390_%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202022-07-22%20112914.jpg" alt="Flexbox Feature"></button>
+         <p></p>
+       </div>
+       <div class="feature-container">
+        <button><img src="C:\Users\rkdqu\Documents\GitHub\home.ps\my-electron-app\right64 (1).png" alt="Flexbox Feature"></button>
+        <p></p>
+      </div>
+       </section>
+     </div>
     <script>
       const { ipcRenderer } = require('electron');
       const openMapWindowButton = document.querySelector('#open-map-window');
       openMapWindowButton.addEventListener('click', () => {
         ipcRenderer.send('open-map-window');
       });
+      $("#search-icon").click(function() {
+        $(".nav").toggleClass("search");
+        $(".nav").toggleClass("no-search");
+        $(".search-input").toggleClass("search-active");
+      });
+      
+      $('.menu-toggle').click(function(){
+         $(".nav").toggleClass("mobile-nav");
+         $(this).toggleClass("is-active");
+      });
+      const leftArrow = document.querySelector('.carousel-arrow.left');
+const rightArrow = document.querySelector('.carousel-arrow.right');
+
+leftArrow.addEventListener('click', () => {
+  const wrapper = document.querySelector('.features-wrapper');
+  wrapper.scrollBy(-320, 0);
+  rightArrow.classList.add('rotate'); // rotate 클래스 추가
+  setTimeout(() => {
+    rightArrow.classList.remove('rotate'); // 0.2초 후 rotate 클래스 제거
+  }, 200);
+});
+
+rightArrow.addEventListener('click', () => {
+  const wrapper = document.querySelector('.features-wrapper');
+  wrapper.scrollBy(320, 0);
+  leftArrow.classList.add('rotate'); // rotate 클래스 추가
+  setTimeout(() => {
+    leftArrow.classList.remove('rotate'); // 0.2초 후 rotate 클래스 제거
+  }, 200);
+});
     </script>
   </body>
 </html>
